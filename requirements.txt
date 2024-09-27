@@ -1,6 +1,0 @@
-python-dotenv==1.0.1
-langchain
-langgraph
-langchain-nvidia-ai-endpoints==0.2.2
-pandas
-pyprojroot

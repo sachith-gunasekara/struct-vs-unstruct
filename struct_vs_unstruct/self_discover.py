@@ -6,88 +6,27 @@ from typing import Optional, TypedDict
 
 from langchain import hub
 from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-from langchain_nvidia_ai_endpoints import ChatNVIDIA
+from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
 from langgraph.graph import END, START, StateGraph
 from dotenv import load_dotenv
 import pandas as pd
 from pyprojroot import here
 
-from struct_vs_unstruct.helpers.llm import model_kwargs, MODEL_ID
-
 load_dotenv()
 
-if not os.getenv("NVIDIA_API_KEY"):
-    # Note: the API key should start with "nvapi-"
-    os.environ["NVIDIA_API_KEY"] = getpass.getpass("Enter your NVIDIA API key: ")
+from struct_vs_unstruct.helpers.llm import model
+from struct_vs_unstruct.helpers.log import log_token_usage
+import struct_vs_unstruct.prompts as svu_prompts
 
 
 select_prompt = hub.pull("hwchase17/self-discovery-select")
 adapt_prompt = hub.pull("hwchase17/self-discovery-adapt")
 structured_prompt = hub.pull("hwchase17/self-discovery-structure")
 reasoning_prompt = hub.pull("hwchase17/self-discovery-reasoning")
-
-NL_REASONING_PLAN_PROMPT = """Operationalize the reasoning modules into a step-by-step reasoning plan in plain English to solve the given task.
-Make sure the plan is concrete, intuitive, and unambigous.
-The reasoning plan should help any person follow it and be able to derive a solution to the given task.
-
-Here's an example:
-
-Example task:
-If you follow these instructions, do you return to the starting point? Always face forward. Take 1 step backward. Take 9 steps left. Take 2 steps backward. Take 6 steps forward. Take 4 steps forward. Take 4 steps backward. Take 3 steps right.
-
-Example reasoning structure:
-Find position after instruction 1.
-FInd position after instruction 2.
-Find position after instruction n.
-Is final position the same as starting position?
-
-Adapted module description:
-{adapted_modules}
-
-Task: {task_description}
-
-Implement a reasoning plan for solvers to follow step-by-step and arrive at the correct answer.
-
-Note: do NOT actually arrive at a conclusion in this pass. Your job is to generate a PLAN so that in the future you can follow it to arrive at the correct conclusion for tasks like this"""
-
-nl_reasoning_plan_prompt = PromptTemplate.from_template(NL_REASONING_PLAN_PROMPT)
-
-FOLLOW_REASONING_PLAN_PROMPT = """Follow the reasoning plan step-by-step to arrive at the correct answer
-Your response should only contain the reasoning process for the given task.
-
-Reasoning Plan:
-{reasoning_plan}
-
-Task: {task_description}"""
-
-follow_reasoning_plan_prompt = PromptTemplate.from_template(FOLLOW_REASONING_PLAN_PROMPT)
-
-
-# Function to log token usage to a CSV file using pandas.concat()
-def log_token_usage(result, file_name=here('struct_vs_unstruct/logs/token_usage_log.csv')):
-    # Check if the file already exists
-    if os.path.exists(file_name):
-        # Load the existing file
-        df = pd.read_csv(file_name)
-    else:
-        # Create a new DataFrame with the appropriate columns
-        df = pd.DataFrame(columns=["prompt_tokens", "completion_tokens", "total_tokens"])
-
-    token_data = result.response_metadata.get("token_usage", {})
-
-    # Create a DataFrame for the new token usage data
-    new_row_df = pd.DataFrame([{
-        "prompt_tokens": token_data.get('prompt_tokens', 0),
-        "completion_tokens": token_data.get('completion_tokens', 0),
-        "total_tokens": token_data.get('total_tokens', 0)
-    }])
-
-    # Use pd.concat to append the new row to the existing DataFrame
-    df = pd.concat([df, new_row_df], ignore_index=True)
-
-    # Save the updated DataFrame back to the CSV file
-    df.to_csv(file_name, index=False)
+deriving_reasoning_modules_prompt = PromptTemplate.from_template(svu_prompts.DERIVING_REASONING_MODULES_PROMPT)
+nl_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.NL_REASONING_PLAN_PROMPT)
+follow_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.FOLLOW_REASONING_PLAN_PROMPT)
+structure_response_prompt = PromptTemplate.from_template(svu_prompts.STRUCTURE_RESPONSE_PROMPT)
 
 
 class SelfDiscoverState(TypedDict):
@@ -97,16 +36,15 @@ class SelfDiscoverState(TypedDict):
     adapted_modules: Optional[str]
     reasoning_structure: Optional[str]
     reasoning_plan: Optional[str]
-    answer: Optional[str]
+    reasoning: Optional[str]
+    trajectory: Optional[str]
+    answer_pred: Optional[str]
 
-
-model = ChatNVIDIA(
-    model=MODEL_ID,
-    **model_kwargs
-)
-
-def output_parser(result):
-    parser = StrOutputParser()
+def output_parser(result, json: bool = False):
+    if json:
+        parser = JsonOutputParser()
+    else:
+        parser = StrOutputParser()
     return parser.invoke(result)
 
 def select(inputs):
@@ -146,8 +84,16 @@ def reason(inputs):
 
     log_token_usage(result)
 
-    return {"answer": output_parser(result)}
+    return {"reasoning": output_parser(result)}
 
+def deriving_reasoning_modules(inputs):
+    reasoning_chain = deriving_reasoning_modules_prompt | model
+
+    result = reasoning_chain.invoke(inputs)
+
+    log_token_usage(result)
+
+    return {"selected_modules": output_parser(result)}
 
 def nl_reasoning_plan(inputs):
     reasoning_chain = nl_reasoning_plan_prompt | model
@@ -166,21 +112,33 @@ def follow_reasoning_plan(inputs):
 
     log_token_usage(result)
 
-    return {"answer": output_parser(result)}
+    return {"reasoning": output_parser(result)}
+
+def structure_response(inputs):
+    structure_chain = structure_response_prompt | model
+
+    result = structure_chain.invoke(inputs)
+
+    log_token_usage(result)
+
+    response_json = output_parser(result, json=True)
+
+    return response_json
 
 
 def add_nodes(modified: bool = False):
     graph = StateGraph(SelfDiscoverState)
 
-    graph.add_node(select)
-    graph.add_node(adapt)
-
     if not modified:
+        graph.add_node(select)
+        graph.add_node(adapt)
         graph.add_node(structure)
         graph.add_node(reason)
     else:
+        graph.add_node(deriving_reasoning_modules)
         graph.add_node(nl_reasoning_plan)
         graph.add_node(follow_reasoning_plan)
+        graph.add_node(structure_response)
 
     return graph
 
@@ -188,17 +146,18 @@ def add_nodes(modified: bool = False):
 def create_self_discover_graph(modified: bool = False):
     graph = add_nodes(modified)
 
-    graph.add_edge(START, "select")
-    graph.add_edge("select", "adapt")
-
     if not modified:
+        graph.add_edge(START, "select")
+        graph.add_edge("select", "adapt")
         graph.add_edge("adapt", "structure")
         graph.add_edge("structure", "reason")
         graph.add_edge("reason", END)
     else:
-        graph.add_edge("adapt", "nl_reasoning_plan")
+        graph.add_edge(START, "deriving_reasoning_modules")
+        graph.add_edge("deriving_reasoning_modules", "nl_reasoning_plan")
         graph.add_edge("nl_reasoning_plan", "follow_reasoning_plan")
-        graph.add_edge("follow_reasoning_plan", END)
+        graph.add_edge("follow_reasoning_plan", "structure_response")
+        graph.add_edge("structure_response", END)
 
     app = graph.compile()
 

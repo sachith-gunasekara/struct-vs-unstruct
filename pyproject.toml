@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "struct-vs-unstruct"
+version = "0.1.0"
+description = ""
+authors = ["Sachith Gunasekara <sachithgunasekara@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^1.0.1"
+pyprojroot = "^0.3.0"
+pandas = "^2.2.3"
+jupyter = "^1.1.1"
+langchain = "*"
+langchain-nvidia-ai-endpoints = "*"
+langgraph = "*"
+datasets = "^3.0.1"
+tqdm = "^4.66.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
