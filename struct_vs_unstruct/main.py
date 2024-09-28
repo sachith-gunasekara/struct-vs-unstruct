@@ -31,7 +31,7 @@ def evaluate(benchmark: str):
     if benchmark == "t4d":
         dataset = load_dataset("sachithgunasekara/t4d")["train"]
         batch_size = 50
-        checkpoint_dir = here("struct_vs_instruct/data/t4d_checkpoints")
+        checkpoint_dir = here("struct_vs_unstruct/data/t4d_checkpoints")
         os.makedirs(checkpoint_dir, exist_ok=True)
 
         print("Running evaluations on T4D dataset in bursts of 50")
@@ -71,7 +71,7 @@ def evaluate(benchmark: str):
         print(f"Combined dataset contains {len(full_dataset)} instances.")
 
         # Save the final dataset
-        full_dataset.save_to_disk(here("struct_vs_instruct/data/t4d_eval"))
+        full_dataset.save_to_disk(here("struct_vs_unstruct/data/t4d_eval"))
 
         print("Calculating accuracy")
         correct_preds = 0
