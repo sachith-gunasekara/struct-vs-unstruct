@@ -33,7 +33,7 @@ Find position after instruction n.
 Is final position the same as starting position?
 
 Reasoning Module description:
-{selected_modules}
+{adapted_modules}
 
 Task: {task_description}
 

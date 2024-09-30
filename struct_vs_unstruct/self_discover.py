@@ -93,7 +93,7 @@ def deriving_reasoning_modules(inputs):
 
     log_token_usage(result)
 
-    return {"selected_modules": output_parser(result)}
+    return {"selected_modules": output_parser(result), "adapted_modules": output_parser(result)}
 
 def nl_reasoning_plan(inputs):
     reasoning_chain = nl_reasoning_plan_prompt | model
@@ -126,7 +126,7 @@ def structure_response(inputs):
     return response_json
 
 
-def add_nodes(modified: bool = False):
+def add_nodes(modified: bool = False, self_synthesis: bool = False):
     graph = StateGraph(SelfDiscoverState)
 
     if not modified:
@@ -135,7 +135,11 @@ def add_nodes(modified: bool = False):
         graph.add_node(structure)
         graph.add_node(reason)
     else:
-        graph.add_node(deriving_reasoning_modules)
+        if not self_synthesis:
+            graph.add_node(select)
+            graph.add_node(adapt)
+        else:
+            graph.add_node(deriving_reasoning_modules)
         graph.add_node(nl_reasoning_plan)
         graph.add_node(follow_reasoning_plan)
         graph.add_node(structure_response)
@@ -143,8 +147,8 @@ def add_nodes(modified: bool = False):
     return graph
 
 
-def create_self_discover_graph(modified: bool = False):
-    graph = add_nodes(modified)
+def create_self_discover_graph(modified: bool = False, self_synthesis: bool = False):
+    graph = add_nodes(modified, self_synthesis)
 
     if not modified:
         graph.add_edge(START, "select")
@@ -153,8 +157,14 @@ def create_self_discover_graph(modified: bool = False):
         graph.add_edge("structure", "reason")
         graph.add_edge("reason", END)
     else:
-        graph.add_edge(START, "deriving_reasoning_modules")
-        graph.add_edge("deriving_reasoning_modules", "nl_reasoning_plan")
+        if not self_synthesis:
+            graph.add_edge(START, "select")
+            graph.add_edge("select", "adapt")
+            graph.add_edge("adapt", "nl_reasoning_plan")
+        else:
+            graph.add_edge(START, "deriving_reasoning_modules")
+            graph.add_edge("deriving_reasoning_modules", "nl_reasoning_plan")
+
         graph.add_edge("nl_reasoning_plan", "follow_reasoning_plan")
         graph.add_edge("follow_reasoning_plan", "structure_response")
         graph.add_edge("structure_response", END)
@@ -164,7 +174,7 @@ def create_self_discover_graph(modified: bool = False):
     return app
 
 
-def self_discover(task_description: str, modified: bool = False):
+def self_discover(task_description: str, modified: bool = False, self_synthesis: bool = False):
     reasoning_modules = [
         "1. How could I devise an experiment to help solve that problem?",
         "2. Make a list of ideas for solving this problem, and apply them one by one to the problem to see if any progress can be made.",
@@ -208,7 +218,7 @@ def self_discover(task_description: str, modified: bool = False):
     ]
     reasoning_modules_str = "\n".join(reasoning_modules)
 
-    app = create_self_discover_graph(modified)
+    app = create_self_discover_graph(modified, self_synthesis)
 
     return app.invoke(
         {

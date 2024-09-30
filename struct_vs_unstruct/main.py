@@ -13,8 +13,9 @@ def bbh():
 def t4d(instance):
     task_description = f"""Observation:
 {instance["story"]}
+Note that the characters plan to use it seperately, and not together.
 
-Question:
+Question (Select only one choice):
 {instance["question"]}"""
     
     out = self_discover(task_description, modified=True)
@@ -30,14 +31,14 @@ def math():
 def evaluate(benchmark: str):
     if benchmark == "t4d":
         dataset = load_dataset("sachithgunasekara/t4d")["train"]
-        batch_size = 50
+        batch_size = 10
         checkpoint_dir = here("struct_vs_unstruct/data/t4d_checkpoints")
         os.makedirs(checkpoint_dir, exist_ok=True)
 
-        print("Running evaluations on T4D dataset in bursts of 50")
+        print("Running evaluations on T4D dataset in bursts of ", batch_size)
 
         # Iterate over the dataset in bursts of 50
-        for start_idx in range(0, len(dataset), batch_size):
+        for start_idx in range(200, len(dataset), batch_size):
             end_idx = min(start_idx + batch_size, len(dataset))
             checkpoint_path = os.path.join(checkpoint_dir, f"checkpoint_{start_idx}_{end_idx}.json")
 
@@ -48,15 +49,16 @@ def evaluate(benchmark: str):
 
             # Select the batch and run the evaluation
             batch = dataset.select(range(start_idx, end_idx))
-            new_ds = batch.map(t4d, num_proc=2)
+            new_ds = batch.map(t4d, num_proc=10)
 
             # Save the processed batch to disk as a checkpoint
             new_ds.save_to_disk(checkpoint_path)
             print(f"Saved batch {start_idx}-{end_idx} as checkpoint.")
 
             # Wait for 15 minutes before processing the next batch
-            print("Waiting for 15 minutes to avoid NVIDIA blocking...")
-            time.sleep(15 * 60)  # 15 minutes wait
+            wait_time = 0
+            print(f"Waiting for {wait_time} minutes to avoid NVIDIA blocking...")
+            time.sleep(wait_time * 60)  # 15 minutes wait
 
         print("All batches processed. Loading checkpoints...")
 
