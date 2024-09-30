@@ -46,7 +46,7 @@ Note: do NOT actually arrive at a conclusion in this pass. Your job is to genera
 
 FOLLOW_REASONING_PLAN_PROMPT = """Follow the reasoning plan step-by-step to arrive at the correct answer
 Your response should only contain the reasoning process for the given task.
-The final answer should be complete and not only be the letter of the corresponding task (For eg: K. Answer).
+The final answer should be complete and not only be the letter or Answer corresponding to the task (Example answer:  K. Ananda).
 
 Reasoning Plan:
 {reasoning_plan}
