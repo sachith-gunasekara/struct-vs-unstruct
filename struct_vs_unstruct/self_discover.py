@@ -19,8 +19,8 @@ from struct_vs_unstruct.helpers.log import log_token_usage
 import struct_vs_unstruct.prompts as svu_prompts
 
 
-select_prompt = hub.pull("hwchase17/self-discovery-select")
-adapt_prompt = hub.pull("hwchase17/self-discovery-adapt")
+select_prompt = PromptTemplate.from_template(svu_prompts.SELECT_PROMPT)
+adapt_prompt = PromptTemplate.from_template(svu_prompts.ADAPT_PROMPT)
 structured_prompt = hub.pull("hwchase17/self-discovery-structure")
 reasoning_prompt = hub.pull("hwchase17/self-discovery-reasoning")
 deriving_reasoning_modules_prompt = PromptTemplate.from_template(svu_prompts.DERIVING_REASONING_MODULES_PROMPT)

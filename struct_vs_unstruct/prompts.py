@@ -1,3 +1,30 @@
+### SELECT PROMPT ###
+
+SELECT_PROMPT = """Select several reasoning modules that are crucial to utilize in order to solve the given task.
+
+All reasoning module descriptions:
+{reasoning_modules}
+
+Task: 
+{task_description}
+
+Select several modules are crucial for solving the task above. 
+Your response should only be the list of select modules, no explanations or solutions are required."""
+
+
+### ADAPT PROMPT ###
+
+ADAPT_PROMPT = """Rephrase and specify each reasoning module so that it better helps solving the task.
+
+SELECTED module descriptions:
+{selected_modules}
+
+Task:
+{task_description}
+
+Adapt each reasoning module description to better solve the task.
+Your response should only be the list of adapted modules, no explanations or solutions are required."""
+
 ### DERIVING REASONING MODULES PROMPT ###
 
 DERIVING_REASONING_MODULES_PROMPT = """Generate a few atomic seed reasoning modules that can be used to solve the given task.
@@ -19,10 +46,9 @@ Task:
 
 NL_REASONING_PLAN_PROMPT = """Operationalize the reasoning modules into a step-by-step reasoning plan in plain English to solve the given task.
 Make sure the plan is concrete, intuitive, and unambigous.
-The reasoning plan should help any person follow it and be able to derive a solution to the given task.
+The reasoning plan should help an AI agent follow it and be able to derive a solution to the given task.
 
 Here's an example:
-
 Example task:
 If you follow these instructions, do you return to the starting point? Always face forward. Take 1 step backward. Take 9 steps left. Take 2 steps backward. Take 6 steps forward. Take 4 steps forward. Take 4 steps backward. Take 3 steps right.
 
@@ -35,11 +61,10 @@ Is final position the same as starting position?
 Reasoning Module description:
 {adapted_modules}
 
-Task: {task_description}
+Task:
+{task_description}
 
-Implement a reasoning plan for solvers to follow step-by-step and arrive at the correct answer.
-
-Note: do NOT actually arrive at a conclusion in this pass. Your job is to generate a PLAN so that in the future you can follow it to arrive at the correct conclusion for tasks like this"""
+Note: do NOT actually arrive at a conclusion in this pass. Your job is to generate a PLAN that can be followed to arrive at the correct answer the given task."""
 
 
 ### FOLLOW PLAN PROMPT ###
@@ -51,7 +76,8 @@ The final answer should be complete and not only be the letter or Answer corresp
 Reasoning Plan:
 {reasoning_plan}
 
-Task: {task_description}"""
+Task:
+{task_description}"""
 
 
 ### STRUCTURE RESPONSE ###
