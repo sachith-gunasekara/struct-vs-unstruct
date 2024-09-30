@@ -31,7 +31,7 @@ def math():
 def evaluate(benchmark: str):
     if benchmark == "t4d":
         dataset = load_dataset("sachithgunasekara/t4d")["train"]
-        batch_size = 10
+        batch_size = 5
         checkpoint_dir = here("struct_vs_unstruct/data/non_self_synthesis")
         os.makedirs(checkpoint_dir, exist_ok=True)
         log_path = here("struct_vs_unstruct/logs/non_self_synthesis")
@@ -39,7 +39,7 @@ def evaluate(benchmark: str):
 
         print("Running evaluations on T4D dataset in bursts of ", batch_size)
 
-        # Iterate over the dataset in bursts of 50
+        # Iterate over the dataset in bursts of batch_size
         for start_idx in range(0, len(dataset), batch_size):
             end_idx = min(start_idx + batch_size, len(dataset))
             checkpoint_path = os.path.join(checkpoint_dir, f"checkpoint_{start_idx}_{end_idx}")
@@ -57,10 +57,10 @@ def evaluate(benchmark: str):
             new_ds.save_to_disk(checkpoint_path)
             print(f"Saved batch {start_idx}-{end_idx} as checkpoint.")
 
-            # Wait for 15 minutes before processing the next batch
+            # Wait for wait_time minutes before processing the next batch
             wait_time = 0
             print(f"Waiting for {wait_time} minutes to avoid NVIDIA blocking...")
-            time.sleep(wait_time * 60)  # 15 minutes wait
+            time.sleep(wait_time * 60)
 
         print("All batches processed. Loading checkpoints...")
 
