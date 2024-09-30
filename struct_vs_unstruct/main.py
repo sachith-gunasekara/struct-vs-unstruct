@@ -78,6 +78,7 @@ def evaluate(benchmark: str):
         print("Calculating accuracy")
         correct_preds = 0
         for instance in tqdm(full_dataset, desc="instance"):
+        for instance in tqdm(full_dataset, desc="instance"):
             if (instance["answer"] in instance["answer_pred"]) and instance["answer"] == instance["answer_pred"][3:]:
                 correct_preds += 1
             else:
@@ -85,10 +86,15 @@ def evaluate(benchmark: str):
                     f.write(f"{instance['answer']}, {instance['answer_pred']}\n")
 
         accuracy = correct_preds / len(full_dataset)
+                    f.write(f"{instance['answer']}, {instance['answer_pred']}\n")
+
+        accuracy = correct_preds / len(full_dataset)
         print("Accuracy: ", accuracy)
 
         # Log accuracy
+        # Log accuracy
         with open(here("struct_vs_unstruct/logs/evals/t4d.txt"), "a") as f:
+            f.write(f"Accuracy: {accuracy}\n")
             f.write(f"Accuracy: {accuracy}\n")
         
 
