@@ -1,7 +1,6 @@
 # Directly adapted and modified from https://langchain-ai.github.io/langgraph/tutorials/self-discover/self-discover
 
-import os
-import getpass
+import re
 from typing import Optional, TypedDict
 
 from langchain import hub
@@ -25,7 +24,7 @@ structured_prompt = hub.pull("hwchase17/self-discovery-structure")
 reasoning_prompt = hub.pull("hwchase17/self-discovery-reasoning")
 deriving_reasoning_modules_prompt = PromptTemplate.from_template(svu_prompts.DERIVING_REASONING_MODULES_PROMPT)
 nl_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.NL_REASONING_PLAN_PROMPT)
-follow_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.FOLLOW_REASONING_PLAN_PROMPT)
+follow_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.FOLLOW_REASONING_PLAN_PROMPT_BBH)
 structure_response_prompt = PromptTemplate.from_template(svu_prompts.STRUCTURE_RESPONSE_PROMPT)
 
 
@@ -114,7 +113,7 @@ def follow_reasoning_plan(inputs):
 
     return {"reasoning": output_parser(result)}
 
-def structure_response(inputs):
+def structure_response_with_llm(inputs):
     structure_chain = structure_response_prompt | model
 
     result = structure_chain.invoke(inputs)
@@ -125,8 +124,23 @@ def structure_response(inputs):
 
     return response_json
 
+def structure_response_without_llm(inputs):
+    text = "The final answer is "
+    pattern = fr"(?<={text}).*"
 
-def add_nodes(modified: bool = False, self_synthesis: bool = False):
+    response = inputs["reasoning"]
+
+    answer = re.search(pattern, response).group(0).strip()
+
+    trajectory = re.sub(pattern, "", response).replace(text, "").strip()
+
+    return {
+        "trajectory": trajectory,
+        "answer_pred": answer
+    }
+
+
+def add_nodes(modified: bool = False, structure_with_llm: bool = False, self_synthesis: bool = False):
     graph = StateGraph(SelfDiscoverState)
 
     if not modified:
@@ -142,12 +156,16 @@ def add_nodes(modified: bool = False, self_synthesis: bool = False):
             graph.add_node(deriving_reasoning_modules)
         graph.add_node(nl_reasoning_plan)
         graph.add_node(follow_reasoning_plan)
-        graph.add_node(structure_response)
+
+    if structure_with_llm:
+        graph.add_node(structure_response_with_llm)
+    else:
+        graph.add_node(structure_response_without_llm)
 
     return graph
 
 
-def create_self_discover_graph(modified: bool = False, self_synthesis: bool = False):
+def create_self_discover_graph(modified: bool = False, structure_with_llm: bool = False, self_synthesis: bool = False):
     graph = add_nodes(modified, self_synthesis)
 
     if not modified:
@@ -166,8 +184,13 @@ def create_self_discover_graph(modified: bool = False, self_synthesis: bool = Fa
             graph.add_edge("deriving_reasoning_modules", "nl_reasoning_plan")
 
         graph.add_edge("nl_reasoning_plan", "follow_reasoning_plan")
-        graph.add_edge("follow_reasoning_plan", "structure_response")
-        graph.add_edge("structure_response", END)
+
+        if structure_with_llm:
+            graph.add_edge("follow_reasoning_plan", "structure_response_with_llm")
+            graph.add_edge("structure_response_with_llm", END)
+        else:
+            graph.add_edge("follow_reasoning_plan", "structure_response_without_llm")
+            graph.add_edge("structure_response_without_llm", END)
 
     app = graph.compile()
 

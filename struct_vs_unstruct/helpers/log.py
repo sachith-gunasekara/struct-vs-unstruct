@@ -4,7 +4,7 @@ import pandas as pd
 from pyprojroot import here
 
 
-def log_token_usage(result, file_name=here('struct_vs_unstruct/logs/token_usage_log.csv')):
+def log_token_usage(result, file_name=here('struct_vs_unstruct/logs/non_self_synthesis/evals/bbh/token_usage_log.csv')):
     # Check if the file already exists
     if os.path.exists(file_name):
         # Load the existing file
