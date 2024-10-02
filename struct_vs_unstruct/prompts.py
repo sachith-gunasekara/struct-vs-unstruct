@@ -9,7 +9,7 @@ Task:
 {task_description}
 
 Select several modules are crucial for solving the task above. 
-Your response should only be the list of select modules, no explanations or solutions are required."""
+Your response should only be the list of select modules(module number and description), no explanations or solutions are required."""
 
 
 ### ADAPT PROMPT ###
