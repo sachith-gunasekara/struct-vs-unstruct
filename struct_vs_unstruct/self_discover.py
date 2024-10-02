@@ -166,7 +166,7 @@ def add_nodes(modified: bool = False, structure_with_llm: bool = False, self_syn
 
 
 def create_self_discover_graph(modified: bool = False, structure_with_llm: bool = False, self_synthesis: bool = False):
-    graph = add_nodes(modified, self_synthesis)
+    graph = add_nodes(modified, structure_with_llm, self_synthesis)
 
     if not modified:
         graph.add_edge(START, "select")
@@ -197,7 +197,7 @@ def create_self_discover_graph(modified: bool = False, structure_with_llm: bool 
     return app
 
 
-def self_discover(task_description: str, modified: bool = False, self_synthesis: bool = False):
+def self_discover(task_description: str, modified: bool = False, structure_with_llm: bool = False, self_synthesis: bool = False):
     reasoning_modules = [
         "1. How could I devise an experiment to help solve that problem?",
         "2. Make a list of ideas for solving this problem, and apply them one by one to the problem to see if any progress can be made.",
@@ -241,7 +241,7 @@ def self_discover(task_description: str, modified: bool = False, self_synthesis:
     ]
     reasoning_modules_str = "\n".join(reasoning_modules)
 
-    app = create_self_discover_graph(modified, self_synthesis)
+    app = create_self_discover_graph(modified, structure_with_llm, self_synthesis)
 
     return app.invoke(
         {
