@@ -12,16 +12,13 @@ from struct_vs_unstruct.helpers.config import config
 from struct_vs_unstruct.helpers.logger import logger
 
 
-def call_self_discover(task_description, modified=True):
-    out = self_discover(task_description, modified=modified)
+def bbh(instance):
+    out = self_discover(instance["input"], modified=True)
 
     del out["reasoning_modules"]
     del out["task_description"]
 
     return out
-
-def bbh(instance):
-    return call_self_discover(task_description=instance["input"])
 
 def t4d(instance):
     task_description = f"""Observation:
@@ -31,7 +28,12 @@ Note that the characters plan to use it seperately, and not together.
 Question (Select only one choice):
 {instance["question"]}"""
     
-    return call_self_discover(task_description)
+    out = self_discover(task_description, modified=True)
+
+    del out["reasoning_modules"]
+    del out["task_description"]
+
+    return out
 
 def math():
     pass
@@ -52,7 +54,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
     logger.info("Running evaluations on %s dataset in bursts of %s", benchmark, batch_size)
 
     # Iterate over the dataset in bursts of batch_size
-    for start_idx in range(0, len(dataset), batch_size):
+    for start_idx in range(0, 5, batch_size):
         end_idx = min(start_idx + batch_size, len(dataset))
         checkpoint_path = os.path.join(checkpoint_dir, f"checkpoint_{start_idx}_{end_idx}")
 
