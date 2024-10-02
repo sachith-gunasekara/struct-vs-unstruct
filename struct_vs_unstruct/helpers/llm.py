@@ -1,6 +1,8 @@
-from langchain_nvidia_ai_endpoints import ChatNVIDIA
+import os
 
-MODEL_ID = "meta/llama-3.1-405b-instruct"
+from langchain_openai import ChatOpenAI
+
+MODEL_ID = "meta-llama/llama-3.1-405b-instruct:free"
 
 model_kwargs = {
     "temperature": 0.2,
@@ -8,7 +10,9 @@ model_kwargs = {
     "max_tokens": 1024
 }
 
-model = ChatNVIDIA(
+model = ChatOpenAI(
     model=MODEL_ID,
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPENROUTER_API_KEY"),
     **model_kwargs
 )
