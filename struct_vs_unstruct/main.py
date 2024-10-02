@@ -5,7 +5,6 @@ from datasets import load_dataset, get_dataset_config_names
 from pyprojroot import here
 from tqdm import tqdm
 
-from struct_vs_unstruct.self_discover import self_discover
 from struct_vs_unstruct.helpers.dataset import load_checkpoints
 from struct_vs_unstruct.helpers.evals import calculate_accuracy
 from struct_vs_unstruct.helpers.config import config
@@ -13,6 +12,8 @@ from struct_vs_unstruct.helpers.logger import logger
 
 
 def bbh(instance):
+    from struct_vs_unstruct.self_discover import self_discover
+
     out = self_discover(instance["input"], modified=True)
 
     del out["reasoning_modules"]
@@ -21,6 +22,8 @@ def bbh(instance):
     return out
 
 def t4d(instance):
+    from struct_vs_unstruct.self_discover import self_discover
+    
     task_description = f"""Observation:
 {instance["story"]}
 Note that the characters plan to use it seperately, and not together.
