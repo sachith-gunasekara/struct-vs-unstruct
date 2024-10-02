@@ -21,7 +21,7 @@ def call_self_discover(task_description, modified=False, structure_with_llm=Fals
     return out
 
 def bbh(instance):
-    return call_self_discover(instance["input"], True)
+    return call_self_discover(instance["input"], True, structure_with_llm=True)
 
 
 def t4d(instance):
@@ -82,7 +82,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
     accuracy = calculate_accuracy(
         full_dataset, 
         benchmark=benchmark,
-        y="answer",
+        y="target",
         y_pred="answer_pred",
         log_file_path=os.path.join(log_dir, f"{benchmark}_different.txt")
     )

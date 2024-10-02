@@ -1,17 +1,22 @@
 import os
+import threading
 
 import pandas as pd
 from pyprojroot import here
 
 
+
+file_write_lock = threading.Lock()
+
 def log_token_usage(result, file_name=here('struct_vs_unstruct/logs/non_self_synthesis/evals/bbh/token_usage_log.csv')):
-    # Check if the file already exists
-    if os.path.exists(file_name):
-        # Load the existing file
-        df = pd.read_csv(file_name)
-    else:
-        # Create a new DataFrame with the appropriate columns
-        df = pd.DataFrame(columns=["prompt_tokens", "completion_tokens", "total_tokens"])
+    with file_write_lock:
+        # Check if the file already exists
+        if os.path.exists(file_name):
+            # Load the existing file
+            df = pd.read_csv(file_name)
+        else:
+            # Create a new DataFrame with the appropriate columns
+            df = pd.DataFrame(columns=["prompt_tokens", "completion_tokens", "total_tokens"])
 
     token_data = result.response_metadata.get("token_usage", {})
 
@@ -25,5 +30,6 @@ def log_token_usage(result, file_name=here('struct_vs_unstruct/logs/non_self_syn
     # Use pd.concat to append the new row to the existing DataFrame
     df = pd.concat([df, new_row_df], ignore_index=True)
 
-    # Save the updated DataFrame back to the CSV file
-    df.to_csv(file_name, index=False)
+    with file_write_lock:
+        # Save the updated DataFrame back to the CSV file
+        df.to_csv(file_name, index=False)
