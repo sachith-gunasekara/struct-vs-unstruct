@@ -173,7 +173,13 @@ def create_self_discover_graph(modified: bool = False, structure_with_llm: bool 
         graph.add_edge("select", "adapt")
         graph.add_edge("adapt", "structure")
         graph.add_edge("structure", "reason")
-        graph.add_edge("reason", END)
+        
+        if structure_with_llm:
+            graph.add_edge("reason", "structure_response_with_llm")
+            graph.add_edge("structure_response_with_llm", END)
+        else:
+            graph.add_edge("reason", "structure_response_without_llm")
+            graph.add_edge("structure_response_without_llm", END)
     else:
         if not self_synthesis:
             graph.add_edge(START, "select")

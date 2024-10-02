@@ -12,8 +12,8 @@ from struct_vs_unstruct.helpers.config import config
 from struct_vs_unstruct.helpers.logger import logger
 
 
-def call_self_discover(task_description, modified=False):
-    out = self_discover(task_description, modified=modified)
+def call_self_discover(task_description, modified=False, structure_with_llm=False, self_synthesis=False):
+    out = self_discover(task_description, modified, structure_with_llm, self_synthesis)
 
     del out["reasoning_modules"]
     del out["task_description"]
@@ -21,7 +21,8 @@ def call_self_discover(task_description, modified=False):
     return out
 
 def bbh(instance):
-    return call_self_discover(instance["input"])
+    return call_self_discover(instance["input"], True)
+
 
 def t4d(instance):
     task_description = f"""Observation:
