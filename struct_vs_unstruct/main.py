@@ -53,7 +53,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
     logger.info("Running evaluations on %s dataset in bursts of %s", benchmark, batch_size)
 
     # Iterate over the dataset in bursts of batch_size
-    for start_idx in range(0, 5, batch_size):
+    for start_idx in range(0, len(dataset), batch_size):
         end_idx = min(start_idx + batch_size, len(dataset))
         checkpoint_path = os.path.join(checkpoint_dir, f"checkpoint_{start_idx}_{end_idx}")
 
