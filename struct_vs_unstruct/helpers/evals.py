@@ -17,5 +17,5 @@ def calculate_accuracy(full_dataset, benchmark, y: str, y_pred: str, log_file_pa
             correct_preds += 1
         else:
             with open(log_file_path, "a") as f:
-                f.write(f"{instance['answer']}, {instance['answer_pred']}\n")
+                f.write(f"{instance[y]}, {instance[y_pred]}\n")
     return correct_preds / len(full_dataset)

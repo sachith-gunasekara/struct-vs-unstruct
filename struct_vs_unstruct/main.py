@@ -47,6 +47,11 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
     checkpoint_dir = here(os.path.join("struct_vs_unstruct", config["PATHS"]["CheckpointDir"], benchmark, f"{benchmark}-{subset}"))
     log_dir = here(os.path.join("struct_vs_unstruct", config["PATHS"]["LogDir"], "evals", benchmark, f"{benchmark}-{subset}"))
 
+    if os.path.exists(os.path.join(checkpoint_dir, f"{benchmark}_eval")):
+        logger.debug("The subset %s of the dataset %s has already been processed. Skipping...", subset, dataset_name)
+
+        return "skipped"
+
     os.makedirs(checkpoint_dir, exist_ok=True)
     os.makedirs(log_dir, exist_ok=True)
 
