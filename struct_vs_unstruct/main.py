@@ -69,7 +69,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
 
         # Select the batch and run the evaluation
         batch = dataset.select(range(start_idx, end_idx))
-        new_ds = batch.map(instance_processor, num_proc=batch_size)
+        new_ds = batch.map(instance_processor, num_proc=batch_size, load_from_cache_file=False)
 
         # Save the processed batch to disk as a checkpoint
         new_ds.save_to_disk(checkpoint_path)
@@ -92,7 +92,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
         log_file_path=os.path.join(log_dir, f"{benchmark}_different.txt")
     )
 
-    logger.info("Accuracy of %s - %s: %f", dataset_name, benchmark, accuracy)
+    logger.info("Accuracy of %s - %s: %f", dataset_name, subset, accuracy)
 
     # Log accuracy
     with open(os.path.join(log_dir, f"{benchmark}.txt"), "w") as f:
