@@ -21,7 +21,7 @@ def call_self_discover(task_description, modified=False, structure_with_llm=Fals
     return out
 
 def bbh(instance):
-    return call_self_discover(instance["input"], True, structure_with_llm=True)
+    return call_self_discover(instance["input"], True, structure_with_llm=False)
 
 
 def t4d(instance):
@@ -123,6 +123,13 @@ if __name__ == "__main__":
                         wait_time = 30
                         print(f"Bearer token malformed. Waiting for {wait_time} minutes to avoid NVIDIA blocking...")
                         time.sleep(wait_time * 60)
+                    elif "Invalid invocation request id specified" in str(e):
+                        wait_time = 45
+                        print(f"Invalid invocation request id specified. Waiting for {wait_time} minutes restart calls...")
+                        time.sleep(wait_time * 60)
+                    elif "'NoneType' object has no attribute 'group'" in str(e):
+                        logger.error("Error extracting answer and trajectory from response. Rerunning...")
+                        continue
                     else:
                         # Re-raise the exception if it's not related to Bearer token
                         raise e
