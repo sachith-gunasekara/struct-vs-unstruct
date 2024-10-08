@@ -11,9 +11,6 @@ from struct_vs_unstruct.helpers.evals import calculate_accuracy
 from struct_vs_unstruct.helpers.config import read_config, save_config
 from struct_vs_unstruct.helpers.logger import logger
 
-
-config = read_config()
-
 def call_self_discover(task_description, reasoning_formats: str = None, modified=False, structure_with_llm=False, self_synthesis=False):
     out = self_discover(task_description, reasoning_formats, modified, structure_with_llm, self_synthesis)
 
@@ -48,6 +45,7 @@ def math():
     pass
 
 def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor):
+    config = read_config()
     
     logger.info("Running evaluations on %s. Loading subset %s from dataset %s", benchmark, subset, dataset_name)
     
@@ -66,7 +64,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
     os.makedirs(log_dir, exist_ok=True)
 
     config.add_section("CURRENTS")
-    config.set("CURRENTS", "log_dir", log_dir)
+    config.set("CURRENTS", "log_dir", str(log_dir))
     config = save_config()
 
     logger.info("Running evaluations on %s dataset in bursts of %s", benchmark, batch_size)
