@@ -8,9 +8,11 @@ from tqdm import tqdm
 from struct_vs_unstruct.self_discover import self_discover
 from struct_vs_unstruct.helpers.dataset import load_checkpoints
 from struct_vs_unstruct.helpers.evals import calculate_accuracy
-from struct_vs_unstruct.helpers.config import config
+from struct_vs_unstruct.helpers.config import read_config, save_config
 from struct_vs_unstruct.helpers.logger import logger
 
+
+config = read_config()
 
 def call_self_discover(task_description, reasoning_formats: str = None, modified=False, structure_with_llm=False, self_synthesis=False):
     out = self_discover(task_description, reasoning_formats, modified, structure_with_llm, self_synthesis)
@@ -40,7 +42,7 @@ Question:
     reasoning_formats = """
 - should be complete with the letter and correct answer from the list of given choices (Example answer:  K. Ananda))"""
     
-    return call_self_discover(task_description, reasoning_formats, True, structure_with_llm=False)
+    return call_self_discover(task_description, reasoning_formats, False, structure_with_llm=False)
 
 def math():
     pass
@@ -62,6 +64,10 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
 
     os.makedirs(checkpoint_dir, exist_ok=True)
     os.makedirs(log_dir, exist_ok=True)
+
+    config.add_section("CURRENTS")
+    config.set("CURRENTS", "log_dir", log_dir)
+    config = save_config()
 
     logger.info("Running evaluations on %s dataset in bursts of %s", benchmark, batch_size)
 
@@ -110,10 +116,10 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
 
 
 if __name__ == "__main__":
-    benchmarks = ["t4d", "bbh"][1:]
-    dataset_names = ["sachithgunasekara/t4d", "maveriq/bigbenchhard"][1:]
-    subset_list = [[""], get_dataset_config_names(dataset_names[0])][1:]
-    instance_processors = [t4d, bbh][1:]
+    benchmarks = ["t4d", "bbh"][0:1]
+    dataset_names = ["sachithgunasekara/t4d", "maveriq/bigbenchhard"][0:1]
+    subset_list = [[""], get_dataset_config_names(dataset_names[0])][0:1]
+    instance_processors = [t4d, bbh][0:1]
 
     for benchmark, dataset_name, subsets, instance_processor in zip(benchmarks, dataset_names, subset_list, instance_processors):
 
