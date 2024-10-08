@@ -1,7 +1,7 @@
 from tqdm import tqdm
 
 
-t4d = lambda instance, y, y_pred: instance[y] in instance[y_pred] and instance == instance[y_pred][3:]
+t4d = lambda instance, y, y_pred: instance[y] in instance[y_pred] and instance[y] == str(instance[y_pred].translate(str.maketrans("", "", "."))[2:])
 bbh = lambda instance, y, y_pred: instance[y_pred] and instance[y].translate(str.maketrans("", "", "()")) == instance[y_pred].translate(str.maketrans("", "", ".()"))
 
 

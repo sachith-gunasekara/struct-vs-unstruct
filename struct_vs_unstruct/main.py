@@ -11,7 +11,9 @@ from struct_vs_unstruct.helpers.evals import calculate_accuracy
 from struct_vs_unstruct.helpers.config import read_config, save_config
 from struct_vs_unstruct.helpers.logger import logger
 
-def call_self_discover(task_description, reasoning_formats: str = None, modified=False, structure_with_llm=False, self_synthesis=False):
+
+
+def call_self_discover(task_description: str, reasoning_formats: str, modified: bool = False, structure_with_llm: bool = False, self_synthesis: bool = False):
     out = self_discover(task_description, reasoning_formats, modified, structure_with_llm, self_synthesis)
 
     del out["reasoning_modules"]
@@ -39,7 +41,7 @@ Question:
     reasoning_formats = """
 - should be complete with the letter and correct answer from the list of given choices (Example answer:  K. Ananda))"""
     
-    return call_self_discover(task_description, reasoning_formats, False, structure_with_llm=False)
+    return call_self_discover(task_description, reasoning_formats, True, structure_with_llm=False)
 
 def math():
     pass
