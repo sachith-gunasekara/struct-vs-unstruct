@@ -12,7 +12,7 @@ lock = mp.Lock()
 
 def log_token_usage(result, file_name: str = None):
     if file_name is None:
-        filename = os.path.join(config["CURRENTS"]["log_dir"], "token_usage_log.csv")
+        file_name = os.path.join(config["CURRENTS"]["log_dir"], "token_usage_log.csv")
     # Check if the file already exists
     if os.path.exists(file_name):
         with lock:
