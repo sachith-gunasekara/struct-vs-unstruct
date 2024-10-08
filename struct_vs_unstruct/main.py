@@ -101,7 +101,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
     accuracy = calculate_accuracy(
         full_dataset, 
         benchmark=benchmark,
-        y="target",
+        y="answer",
         y_pred="answer_pred",
         log_file_path=os.path.join(log_dir, f"{benchmark}_different.txt")
     )
