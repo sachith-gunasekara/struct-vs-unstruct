@@ -20,8 +20,9 @@ import struct_vs_unstruct.prompts as svu_prompts
 
 select_prompt = PromptTemplate.from_template(svu_prompts.SELECT_PROMPT)
 adapt_prompt = PromptTemplate.from_template(svu_prompts.ADAPT_PROMPT)
-structured_prompt = hub.pull("hwchase17/self-discovery-structure")
-reasoning_prompt = hub.pull("hwchase17/self-discovery-reasoning")
+structured_prompt = PromptTemplate.from_template(svu_prompts.STRUCTURING_PROMPT)
+reasoning_prompt = PromptTemplate.from_template(svu_prompts.REASONING_PROMPT)
+
 deriving_reasoning_modules_prompt = PromptTemplate.from_template(svu_prompts.DERIVING_REASONING_MODULES_PROMPT)
 nl_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.NL_REASONING_PLAN_PROMPT)
 follow_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.FOLLOW_REASONING_PLAN_PROMPT_BBH)
@@ -31,6 +32,7 @@ structure_response_prompt = PromptTemplate.from_template(svu_prompts.STRUCTURE_R
 class SelfDiscoverState(TypedDict):
     reasoning_modules: str
     task_description: str
+    reasoning_formats: str
     selected_modules: Optional[str]
     adapted_modules: Optional[str]
     reasoning_structure: Optional[str]
@@ -203,7 +205,7 @@ def create_self_discover_graph(modified: bool = False, structure_with_llm: bool 
     return app
 
 
-def self_discover(task_description: str, modified: bool = False, structure_with_llm: bool = False, self_synthesis: bool = False):
+def self_discover(task_description: str, reasoning_formats: str, modified: bool = False, structure_with_llm: bool = False, self_synthesis: bool = False):
     reasoning_modules = [
         "1. How could I devise an experiment to help solve that problem?",
         "2. Make a list of ideas for solving this problem, and apply them one by one to the problem to see if any progress can be made.",
@@ -253,5 +255,6 @@ def self_discover(task_description: str, modified: bool = False, structure_with_
         {
             "task_description": task_description,
             "reasoning_modules": reasoning_modules_str,
+            "reasoning_formats": reasoning_formats
         }
     )

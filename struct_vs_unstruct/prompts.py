@@ -42,6 +42,36 @@ Task:
 {task_description}"""
 
 
+### STRUCTURING PROMPT ###
+
+STRUCTURING_PROMPT = """Operationalize the reasoning modules into a step-by-step reasoning plan in JSON format.
+
+Here's an example:
+
+Example task:
+
+If you follow these instructions, do you return to the starting point? Always face forward. Take 1 step backward. Take 9 steps left. Take 2 steps backward. Take 6 steps forward. Take 4 steps forward. Take 4 steps backward. Take 3 steps right.
+
+Example reasoning structure:
+
+{{
+    "Position after instruction 1":
+    "Position after instruction 2":
+    "Position after instruction n":
+    "Is final position the same as starting position":
+}}
+
+Adapted module description:
+{adapted_modules}
+
+Task:
+{task_description}
+
+Implement a reasoning structure for solvers to follow step-by-step and arrive at correct answer.
+
+Note: do NOT actually arrive at a conclusion in this pass. Your job is to generate a PLAN so that in the future you can fill it out and arrive at the correct conclusion for tasks like this"""
+
+
 ### REASONING PLAN PROMPT ###
 
 NL_REASONING_PLAN_PROMPT = """Operationalize the reasoning modules into a step-by-step reasoning plan in plain English to solve the given task.
@@ -68,6 +98,20 @@ Note: do NOT actually arrive at a conclusion in this pass. Your job is to genera
 
 
 ### FOLLOW PLAN PROMPT ###
+
+REASONING_PROMPT = """Follow the step-by-step reasoning plan in JSON to correctly solve the task.
+Fill in the values following the keys by reasoning specifically about the task given. 
+Do not simply rephrase the keys.
+Phrase your final answer always as "The final answer is [answer]".
+
+[answer] should be in one of the following formats:
+{reasoning_formats}
+    
+Reasoning Structure:
+{reasoning_structure}
+
+Task:
+{task_description}"""
 
 FOLLOW_REASONING_PLAN_PROMPT_T4D = """Follow the reasoning plan step-by-step to arrive at the correct answer
 Your response should only contain the reasoning process for the given task.

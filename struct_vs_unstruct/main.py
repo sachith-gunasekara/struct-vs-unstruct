@@ -12,8 +12,8 @@ from struct_vs_unstruct.helpers.config import config
 from struct_vs_unstruct.helpers.logger import logger
 
 
-def call_self_discover(task_description, modified=False, structure_with_llm=False, self_synthesis=False):
-    out = self_discover(task_description, modified, structure_with_llm, self_synthesis)
+def call_self_discover(task_description, reasoning_formats: str = None, modified=False, structure_with_llm=False, self_synthesis=False):
+    out = self_discover(task_description, reasoning_formats, modified, structure_with_llm, self_synthesis)
 
     del out["reasoning_modules"]
     del out["task_description"]
@@ -21,18 +21,26 @@ def call_self_discover(task_description, modified=False, structure_with_llm=Fals
     return out
 
 def bbh(instance):
-    return call_self_discover(instance["input"], True, structure_with_llm=False)
+    reasoning_formats = """
+- If the answer is not multiple choice, [answer] should be the decided answer. (For eg: Q: not True or False. A: False)
+- If the answer is multiple choice,
+    - and the given choices are unlabelled options, [answer] should be the chosen option (For eg: Q: Where does the sun rise from? Options: - East, - West, - North. A: East)
+    - and the given choices are labelled options, [answer] should be the letter corresponding to the chosen option (For eg: Q: Where does the sun rise from? Options: - A. West, - B. East, - C. North. A: B)"""
+   
+    return call_self_discover(instance["input"], reasoning_formats, True, structure_with_llm=False)
 
 
 def t4d(instance):
     task_description = f"""Observation:
 {instance["story"]}
-Note that the characters plan to use it seperately, and not together.
 
-Question (Select only one choice):
+Question:
 {instance["question"]}"""
     
-    return call_self_discover(task_description)
+    reasoning_formats = """
+- should be complete with the letter and correct answer from the list of given choices (Example answer:  K. Ananda))"""
+    
+    return call_self_discover(task_description, reasoning_formats)
 
 def math():
     pass
