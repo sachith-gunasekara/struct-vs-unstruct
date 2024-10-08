@@ -1,6 +1,5 @@
 import os
 import multiprocessing as mp
-from typing import Optional
 
 import pandas as pd
 from pyprojroot import here
@@ -11,7 +10,7 @@ from struct_vs_unstruct.helpers.config import read_config
 config = read_config()
 lock = mp.Lock()
 
-def log_token_usage(result, file_name: Optional[str]):
+def log_token_usage(result, file_name: str = None):
     if file_name is None:
         filename = os.path.join(config["CURRENTS"]["log_dir"], "token_usage_log.csv")
     # Check if the file already exists
