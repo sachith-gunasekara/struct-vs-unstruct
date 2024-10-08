@@ -40,7 +40,7 @@ Question:
     reasoning_formats = """
 - should be complete with the letter and correct answer from the list of given choices (Example answer:  K. Ananda))"""
     
-    return call_self_discover(task_description, reasoning_formats)
+    return call_self_discover(task_description, reasoning_formats, True, structure_with_llm=False)
 
 def math():
     pass
