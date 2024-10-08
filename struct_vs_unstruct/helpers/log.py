@@ -5,7 +5,7 @@ from typing import Optional
 import pandas as pd
 from pyprojroot import here
 
-from struct_vs_unstruct.helpers.config import read_config()
+from struct_vs_unstruct.helpers.config import read_config
 
 
 config = read_config()
