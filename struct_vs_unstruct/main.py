@@ -83,7 +83,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
 
         # Select the batch and run the evaluation
         batch = dataset.select(range(start_idx, end_idx))
-        new_ds = batch.map(instance_processor, num_proc=batch_size, load_from_cache_file=False)
+        new_ds = batch.map(instance_processor, load_from_cache_file=False)
 
         # Save the processed batch to disk as a checkpoint
         new_ds.save_to_disk(checkpoint_path)

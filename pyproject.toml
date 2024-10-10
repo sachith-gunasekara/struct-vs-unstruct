@@ -18,6 +18,8 @@ datasets = "^3.0.1"
 tqdm = "^4.66.5"
 fire = "^0.6.0"
 langchain-openai = "^0.2.1"
+sseclient-py = "^1.8.0"
+langchain-community = "^0.3.2"
 
 
 [build-system]
