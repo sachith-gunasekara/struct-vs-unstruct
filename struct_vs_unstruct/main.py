@@ -28,7 +28,7 @@ def bbh(instance):
     - and the given choices are unlabelled options, [answer] should be the chosen option (For eg: Q: Where does the sun rise from? Options: - East, - West, - North. A: East)
     - and the given choices are labelled options, [answer] should be the letter corresponding to the chosen option (For eg: Q: Where does the sun rise from? Options: - A. West, - B. East, - C. North. A: B)"""
    
-    return call_self_discover(instance["input"], reasoning_formats, True, structure_with_llm=False)
+    return call_self_discover(instance["input"], reasoning_formats, True, structure_with_llm=True)
 
 
 def t4d(instance):
@@ -101,7 +101,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
     accuracy = calculate_accuracy(
         full_dataset, 
         benchmark=benchmark,
-        y="answer",
+        y="target",
         y_pred="answer_pred",
         log_file_path=os.path.join(log_dir, f"{benchmark}_different.txt")
     )
@@ -116,10 +116,10 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
 
 
 if __name__ == "__main__":
-    benchmarks = ["t4d", "bbh"][0:1]
-    dataset_names = ["sachithgunasekara/t4d", "maveriq/bigbenchhard"][0:1]
-    subset_list = [[""], get_dataset_config_names(dataset_names[0])][0:1]
-    instance_processors = [t4d, bbh][0:1]
+    benchmarks = ["t4d", "bbh"]
+    dataset_names = ["sachithgunasekara/t4d", "maveriq/bigbenchhard"]
+    subset_list = [[""], get_dataset_config_names(dataset_names[1])]
+    instance_processors = [t4d, bbh]
 
     for benchmark, dataset_name, subsets, instance_processor in zip(benchmarks, dataset_names, subset_list, instance_processors):
 
@@ -143,6 +143,9 @@ if __name__ == "__main__":
                         time.sleep(wait_time * 60)
                     elif "'NoneType' object has no attribute 'group'" in str(e):
                         logger.error("Error extracting answer and trajectory from response. Rerunning...")
+                        continue
+                    elif "The features can't be aligned because the key trajectory of features" in str(e):
+                        logger.error("Dataset error. Continuing...")
                         continue
                     else:
                         # Re-raise the exception if it's not related to Bearer token

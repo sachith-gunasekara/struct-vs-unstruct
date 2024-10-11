@@ -79,6 +79,7 @@ def structure(inputs):
 
 
 def reason(inputs):
+
     reasoning_chain = reasoning_prompt | model
 
     result = reasoning_chain.invoke(inputs)
@@ -124,6 +125,9 @@ def structure_response_with_llm(inputs):
 
     response_json = output_parser(result, json=True)
 
+    if "answer_pred" not in response_json:
+        response_json["answer_pred"] = None
+
     return response_json
 
 def structure_response_without_llm(inputs):
@@ -132,9 +136,10 @@ def structure_response_without_llm(inputs):
 
     response = inputs["reasoning"]
 
-    answer = re.search(pattern, response).group(0).strip()
-
-    trajectory = re.sub(pattern, "", response).replace(text, "").strip()
+    try:
+        answer, trajectory = re.search(pattern, response).group(0).strip(), re.sub(pattern, "", response).replace(text, "").strip()
+    except:
+        answer, trajectory = None, response
 
     return {
         "trajectory": trajectory,
