@@ -99,8 +99,7 @@ Note: do NOT actually arrive at a conclusion in this pass. Your job is to genera
 
 ### FOLLOW PLAN PROMPT ###
 
-REASONING_PROMPT = """Follow the step-by-step reasoning plan in JSON to correctly solve the task.
-Fill in the values following the keys by reasoning specifically about the task given. 
+REASONING_PROMPT = """Follow the step-by-step reasoning plan in JSON to correctly solve the task filling in the values for the corresponding keys.
 Do not simply rephrase the keys.
 Phrase your final answer always as "The final answer is [answer]".
 
@@ -110,28 +109,17 @@ Phrase your final answer always as "The final answer is [answer]".
 Reasoning Structure:
 {reasoning_structure}
 
-Task:
-{task_description}"""
-
-FOLLOW_REASONING_PLAN_PROMPT_T4D = """Follow the reasoning plan step-by-step to arrive at the correct answer
-Your response should only contain the reasoning process for the given task.
-The final answer should be complete and not only be the letter or Answer corresponding to the task (Example answer:  K. Ananda).
-
-Reasoning Plan:
-{reasoning_plan}
+Correctly follow the above JSON reasoning structure to solve the given task below. Your response should be the filled JSON for the above reasoning structure.
 
 Task:
 {task_description}"""
 
-FOLLOW_REASONING_PLAN_PROMPT_BBH = """Follow the reasoning plan step-by-step to arrive at the correct answer
+FOLLOW_REASONING_PLAN_PROMPT = """Follow the reasoning plan step-by-step to arrive at the correct answer
 Your response should only contain the reasoning process for the given task.
-After the reasoning process, the final answer should be written as "The final answer is [answer]".
+Phrase your final answer always as "The final answer is [answer]".
 
 [answer] should be in one of the following formats:
-- If the answer is not multiple choice, [answer] should be the decided answer. (For eg: Q: not True or False. A: False)
-- If the answer is multiple choice,
-    - and the given choices are unlabelled options, [answer] should be the chosen option (For eg: Q: Where does the sun rise from? Options: - East, - West, - North. A: East)
-    - and the given choices are labelled options, [answer] should be the letter corresponding to the chosen option (For eg: Q: Where does the sun rise from? Options: - A. West, - B. East, - C. North. A: B)
+{reasoning_formats}
 
 Reasoning Plan:
 {reasoning_plan}
@@ -160,3 +148,33 @@ JSON Structure:
     "trajectory": [The reasoning trajectory],
     "answer_pred": [Answer]
 }}"""
+
+
+
+##### OLD PROMPTS #####
+
+FOLLOW_REASONING_PLAN_PROMPT_T4D = """Follow the reasoning plan step-by-step to arrive at the correct answer
+Your response should only contain the reasoning process for the given task.
+The final answer should be complete and not only be the letter or Answer corresponding to the task (Example answer:  K. Ananda).
+
+Reasoning Plan:
+{reasoning_plan}
+
+Task:
+{task_description}"""
+
+FOLLOW_REASONING_PLAN_PROMPT_BBH = """Follow the reasoning plan step-by-step to arrive at the correct answer
+Your response should only contain the reasoning process for the given task.
+After the reasoning process, the final answer should be written as "The final answer is [answer]".
+
+[answer] should be in one of the following formats:
+- If the answer is not multiple choice, [answer] should be the decided answer. (For eg: Q: not True or False. A: False)
+- If the answer is multiple choice,
+    - and the given choices are unlabelled options, [answer] should be the chosen option (For eg: Q: Where does the sun rise from? Options: - East, - West, - North. A: East)
+    - and the given choices are labelled options, [answer] should be the letter corresponding to the chosen option (For eg: Q: Where does the sun rise from? Options: - A. West, - B. East, - C. North. A: B)
+
+Reasoning Plan:
+{reasoning_plan}
+
+Task:
+{task_description}"""

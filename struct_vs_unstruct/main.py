@@ -19,6 +19,9 @@ def call_self_discover(task_description: str, reasoning_formats: str, modified: 
     del out["reasoning_modules"]
     del out["task_description"]
 
+    # if isinstance(out["answer_pred"], list):
+    #     out["answer_pred"] = ", ".join(out["answer_pred"])
+
     return out
 
 def bbh(instance):
@@ -28,7 +31,7 @@ def bbh(instance):
     - and the given choices are unlabelled options, [answer] should be the chosen option (For eg: Q: Where does the sun rise from? Options: - East, - West, - North. A: East)
     - and the given choices are labelled options, [answer] should be the letter corresponding to the chosen option (For eg: Q: Where does the sun rise from? Options: - A. West, - B. East, - C. North. A: B)"""
    
-    return call_self_discover(instance["input"], reasoning_formats, True, structure_with_llm=False)
+    return call_self_discover(instance["input"], reasoning_formats, modified=False, structure_with_llm=False)
 
 
 def t4d(instance):
@@ -101,7 +104,7 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
     accuracy = calculate_accuracy(
         full_dataset, 
         benchmark=benchmark,
-        y="answer",
+        y="target",
         y_pred="answer_pred",
         log_file_path=os.path.join(log_dir, f"{benchmark}_different.txt")
     )
@@ -116,10 +119,10 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
 
 
 if __name__ == "__main__":
-    benchmarks = ["t4d", "bbh"][0:1]
-    dataset_names = ["sachithgunasekara/t4d", "maveriq/bigbenchhard"][0:1]
-    subset_list = [[""], get_dataset_config_names(dataset_names[0])][0:1]
-    instance_processors = [t4d, bbh][0:1]
+    benchmarks = ["t4d", "bbh"]
+    dataset_names = ["sachithgunasekara/t4d", "maveriq/bigbenchhard"]
+    subset_list = [[""], get_dataset_config_names(dataset_names[1])]
+    instance_processors = [t4d, bbh]
 
     for benchmark, dataset_name, subsets, instance_processor in zip(benchmarks, dataset_names, subset_list, instance_processors):
 
@@ -133,9 +136,9 @@ if __name__ == "__main__":
                         break
                 except Exception as e:
                     # Check for the specific Bearer token error
-                    if "Bearer token is malformed" in str(e):
-                        wait_time = 30
-                        print(f"Bearer token malformed. Waiting for {wait_time} minutes to avoid NVIDIA blocking...")
+                    if "Rate limit exceeded" in str(e):
+                        wait_time = 10
+                        print(f"Rate limit exceeded. Waiting for {wait_time} minutes.")
                         time.sleep(wait_time * 60)
                     elif "Invalid invocation request id specified" in str(e):
                         wait_time = 45

@@ -2,7 +2,7 @@ from tqdm import tqdm
 
 
 t4d = lambda instance, y, y_pred: instance[y] in instance[y_pred] and instance[y] == str(instance[y_pred].translate(str.maketrans("", "", "."))[2:])
-bbh = lambda instance, y, y_pred: instance[y_pred] and instance[y].translate(str.maketrans("", "", "()")) == instance[y_pred].translate(str.maketrans("", "", ".()"))
+bbh = lambda instance, y, y_pred: instance[y_pred] and instance[y].translate(str.maketrans("", "", "()")) == instance[y_pred].translate(str.maketrans("", "", '.()"'))
 
 
 def calculate_accuracy(full_dataset, benchmark, y: str, y_pred: str, log_file_path: str):
