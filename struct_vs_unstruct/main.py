@@ -1,5 +1,6 @@
 import os
 import time
+import random
 
 from datasets import load_dataset, get_dataset_config_names
 from pyprojroot import here
@@ -46,8 +47,22 @@ Question:
     
     return call_self_discover(task_description, reasoning_formats, True, structure_with_llm=False)
 
-def math():
-    pass
+def math(instance):
+    level = instance["level"]
+    type = instance["type"]
+
+    one_shot_example = random.sample(list(load_dataset("hendrycks/competition_math", split="train").filter(lambda x: x["level"] == level and x["type"] == type)), 1)[0]
+
+    task_description = f"""Problem: {one_shot_example["problem"]}
+Solution: {one_shot_example["solution"]}
+
+Problem: {instance["problem"]}
+Solution: """
+    
+    reasoning_formats = """
+- should be the final answer based on calculations formatted in Latex style"""
+
+    return call_self_discover(task_description, reasoning_formats, modified=False, structure_with_llm=False)
 
 def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor):
     config = read_config()
@@ -119,10 +134,10 @@ def evaluate(benchmark: str, dataset_name: str, subset: str, instance_processor)
 
 
 if __name__ == "__main__":
-    benchmarks = ["t4d", "bbh"]
-    dataset_names = ["sachithgunasekara/t4d", "maveriq/bigbenchhard"]
-    subset_list = [[""], get_dataset_config_names(dataset_names[1])]
-    instance_processors = [t4d, bbh]
+    benchmarks = ["t4d", "bbh", "math"]
+    dataset_names = ["sachithgunasekara/t4d", "maveriq/bigbenchhard", "sachithgunasekara/self-discover-MATH-subsample"]
+    subset_list = [[""], get_dataset_config_names(dataset_names[1]), [""]]
+    instance_processors = [t4d, bbh, math]
 
     for benchmark, dataset_name, subsets, instance_processor in zip(benchmarks, dataset_names, subset_list, instance_processors):
 
