@@ -25,7 +25,7 @@ reasoning_prompt = PromptTemplate.from_template(svu_prompts.REASONING_PROMPT)
 
 deriving_reasoning_modules_prompt = PromptTemplate.from_template(svu_prompts.DERIVING_REASONING_MODULES_PROMPT)
 nl_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.NL_REASONING_PLAN_PROMPT)
-follow_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.FOLLOW_REASONING_PLAN_PROMPT_BBH)
+follow_reasoning_plan_prompt = PromptTemplate.from_template(svu_prompts.FOLLOW_REASONING_PLAN_PROMPT)
 structure_response_prompt = PromptTemplate.from_template(svu_prompts.STRUCTURE_RESPONSE_PROMPT)
 
 
@@ -79,7 +79,6 @@ def structure(inputs):
 
 
 def reason(inputs):
-
     reasoning_chain = reasoning_prompt | model
 
     result = reasoning_chain.invoke(inputs)
