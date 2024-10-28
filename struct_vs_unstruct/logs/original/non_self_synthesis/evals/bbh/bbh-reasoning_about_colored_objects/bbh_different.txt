@@ -1,0 +1,28 @@
+(P), (P) grey.
+(C), B.
+(G), F.
+(O), (O) black.
+(D), E.
+(F), (F) five."
+(D), C.
+(F), E.
+(F), E.
+(H), G.
+(G), F.
+(A), (A) zero.
+(E), (E) four.
+(E), D.
+(A), (A) zero.
+(B), C.
+(D), C.
+(G), F.
+(H), C.
+(I), H.
+(C), indeed one of the available options."
+(D), (D) three.
+(B), A.
+(A), verified to be correct.",
+(A), N or A.
+(A), (A) yes.
+(A), D.
+(A), B.

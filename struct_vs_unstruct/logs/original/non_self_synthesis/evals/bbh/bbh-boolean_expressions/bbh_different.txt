@@ -1,0 +1,22 @@
+True, based on the application of the 'or' and 'not' operators, as well as the simplification of the inner parentheses.",
+False, False."
+False, False."
+True, True because both components of the statement are true, and the logical operation between them is a conjunction (and). In Boolean logic, True ∧ True = True."
+False, False."
+True, False.
+True, True."
+True, True."
+True, False.
+False, justified by evaluating the expression step-by-step following the order of operations.",
+True, True."
+False, False"
+False, False."
+True, False.
+True, Not True and Not False.
+True, True."
+True, False.
+True, True"
+False, False."
+True, justified based on the correct application of logical operations in the given order."
+True, True."
+False, False."

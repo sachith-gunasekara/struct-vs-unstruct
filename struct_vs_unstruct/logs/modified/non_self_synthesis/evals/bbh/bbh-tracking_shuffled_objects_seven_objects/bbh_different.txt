@@ -1,0 +1,9 @@
+(G), E
+(B), F
+(A), D
+(G), E
+(D), C
+(D), (D) Karl
+(F), B
+(C), B
+(D), E

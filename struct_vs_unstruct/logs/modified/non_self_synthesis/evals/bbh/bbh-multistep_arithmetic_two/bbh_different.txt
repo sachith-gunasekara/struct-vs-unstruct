@@ -1,0 +1,19 @@
+-24, the result of the simplified expression.
+55, 73.
+123, 15.
+32, 36.
+-18, already obtained in the previous step.
+867, 858.
+-554, 598.
+8, 0.
+101, 59.
+-170, derived by combining the results from the previous steps.
+33, the result of the combined expressions.
+5, 4.
+44, -100.
+-92, 52.
+44, a numerical value, -80, which is the result of the given expression.
+250992, 251,472.
+37, -13.
+-113, 113.
+-192, -320.

@@ -1,0 +1,21 @@
+True, True"
+True, True"
+False, False."
+False, True.
+False, False"
+True, False.
+True, True."
+True, False.
+False, False."
+True, False.
+True, False.
+False, justified by the step-by-step evaluation of the expression, following the order of operations and the truth values of the sub-expressions.
+True, False.
+True, False.
+False, True.
+False, False."
+False, False, as the logical expression evaluates to False."
+False, False."
+True, True."
+False, True.
+False, True.

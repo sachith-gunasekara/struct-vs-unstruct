@@ -1,0 +1,17 @@
+(C), B
+(D), four
+(E), B
+(D), C
+(F), D
+(D), three
+(M), (M) silver
+(A), D
+(E), D
+(D), three
+(E), (E) four
+(I), H
+(B), A
+(E), F
+(E), (O)
+(D), three
+(A), B

@@ -1,0 +1,30 @@
+(E), (D).
+(B), C.
+(D), 12/02/1962.
+(E), B.
+(A), 11/29/2001.
+(B), C.
+(E), None
+(E), A.
+(B), None
+(F), 10/22/2001
+(D), F.
+(C), None
+(B), A.
+(E), C.
+(A), B.
+(D), (D).",
+(A), B.
+(C), F.
+(C), F.
+(B), 01/11/2011.
+(C), B.
+(F), already in the US format: 01/09/1987."
+(B), F.
+(C), B.
+(D), B.
+(E), B.
+(D), 07/10/1972.
+(E), E (Though the date provided does not exactly match the calculated date of 12/30/2013).
+(D), C.
+(A), C.

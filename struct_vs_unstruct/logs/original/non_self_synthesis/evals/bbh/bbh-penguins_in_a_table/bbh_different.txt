@@ -1,0 +1,8 @@
+(C), the option that matches the calculated cumulative weight, which is option (C)."
+(A), A because there is only 1 penguin that meets both conditions (age < 8 years old and weight > 12 kg)."
+(B), E.
+(A), B.
+(B), C.
+(B), None
+(A), (A) 37.
+(C), E.

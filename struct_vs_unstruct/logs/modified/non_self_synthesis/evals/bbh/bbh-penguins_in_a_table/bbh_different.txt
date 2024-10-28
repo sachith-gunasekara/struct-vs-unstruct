@@ -1,0 +1,3 @@
+(B), the option that matches the count, which is (B) 2.
+(D), the option that corresponds to the counted number of matches, which is option (D) 4.
+(B), (E)
