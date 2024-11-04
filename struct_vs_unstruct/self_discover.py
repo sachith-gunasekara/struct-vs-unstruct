@@ -10,12 +10,20 @@ from langgraph.graph import END, START, StateGraph
 from dotenv import load_dotenv
 import pandas as pd
 from pyprojroot import here
+from langfuse.callback import CallbackHandler
 
 load_dotenv()
 
 from struct_vs_unstruct.helpers.llm import model
 from struct_vs_unstruct.helpers.log import log_token_usage
 import struct_vs_unstruct.prompts as svu_prompts
+
+
+langfuse_handler = CallbackHandler(
+    public_key="pk-lf-61a584b0-a395-4ec4-a63e-c2ac7a18969d",
+    secret_key="sk-lf-0fd5bf1f-6b14-408a-babb-dc90384d4090",
+    host="https://cloud.langfuse.com"
+)
 
 
 select_prompt = PromptTemplate.from_template(svu_prompts.SELECT_PROMPT)
@@ -260,5 +268,6 @@ def self_discover(task_description: str, reasoning_formats: str, modified: bool 
             "task_description": task_description,
             "reasoning_modules": reasoning_modules_str,
             "reasoning_formats": reasoning_formats
-        }
+        },
+        config={"callbacks": [langfuse_handler]}
     )

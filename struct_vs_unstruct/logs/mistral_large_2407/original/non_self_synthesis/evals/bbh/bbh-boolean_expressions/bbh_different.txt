@@ -1,0 +1,12 @@
+True, False.
+True, False.
+True, False.
+True, False.
+True, False.
+False, True."
+True, not True or False."
+True, False."
+True, False."
+False, True."
+True, False.
+True, True.",

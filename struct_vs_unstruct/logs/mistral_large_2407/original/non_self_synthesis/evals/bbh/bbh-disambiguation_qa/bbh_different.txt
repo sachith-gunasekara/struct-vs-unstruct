@@ -1,0 +1,92 @@
+(A), (A) It is Sam's office"
+(A), C"
+(A), C.
+(A), C.
+(A), B"
+(C), B"
+(A), C.
+(C), B.
+(A), C"
+(C), B.
+(C), B.
+(A), C.
+(B), B. The pronoun 'them' refers to 'the editor'."
+(C), B.
+(C), (A) The scientist shares a story"
+(B), B. It is the chef's culinary training."
+(A), (A) The patient had a skin condition."
+(C), B.
+(C), (C) Ambiguous."
+(A), C.
+(C), B.
+(A), C"
+(A), C"
+(C), B.
+(C), (C) Ambiguous."
+(A), (A) The worker was repairing."
+(A), C.
+(A), C.
+(B), (C) Ambiguous.
+(A), B"
+(A), C.
+(B), C"
+(C), B.
+(B), C.
+(B), C.
+(B), (C) Ambiguous."
+(A), C.
+(B), C.
+(C), A.
+(C), B."
+(C), B."
+(A), C.
+(B), C.
+(C), B.
+(B), (C) Ambiguous.
+(B), C"
+(C), (A) The surgeon needed more time.
+(A), C.
+(A), (A) They were my parent's secretary.
+(A), C.
+(A), C.
+(C), (C) Ambiguous.
+(A), (A) It was the educator's grading policy."
+(C), A.
+(B), (C) Ambiguous.
+(C), (A) Alex sent the letter.
+(C), (C) Ambiguous"
+(A), C.
+(B), (C) Ambiguous."
+(A), C.
+(A), C."
+(C), B.
+(A), C.
+(C), B.
+(C), A.
+(B), C.
+(A), (A) The homeowner had purchased."
+(C), B.
+(B), (C) Ambiguous.
+(C), B"
+(C), (A) The mechanic was in a good mood.
+(A), (A) The developer focuses on code.
+(A), (A) The lawyer needed to understand."
+(A), C.
+(A), C.
+(C), B.
+(A), C.
+(C), (A)."
+(C), A.
+(C), B.
+(C), B"
+(B), (C) Ambiguous."
+(C), B.
+(C), B."
+(A), C.
+(C), B"
+(C), B.
+(B), (C).
+(C), (C) Ambiguous."
+(C), (A) Alex sent the letter."
+(B), A.
+(B), C"

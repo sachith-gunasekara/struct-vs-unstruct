@@ -1,7 +1,9 @@
+import os
 import logging
 
 from pyprojroot import here
 
+import struct_vs_unstruct.helpers.paths as paths
 
 logger_name = "structVsUnstruct"
 
@@ -9,7 +11,7 @@ logger = logging.getLogger(logger_name)
 
 # Create handlers
 c_handler = logging.StreamHandler()
-f_handler = logging.FileHandler(here(f"struct_vs_unstruct/logs/{logger_name}.log"))
+f_handler = logging.FileHandler(here(os.path.join(paths.log_par_dir, f"{logger_name}.log")))
 
 c_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 f_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
