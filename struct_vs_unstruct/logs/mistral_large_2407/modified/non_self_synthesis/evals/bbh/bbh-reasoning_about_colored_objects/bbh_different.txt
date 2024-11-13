@@ -1,0 +1,37 @@
+(C), (C) two.
+(O), (O) black.
+(A), (A) zero.
+(G), (G) six.
+(F), (F) five.
+(D), E.
+(L), (L) burgundy.
+(F), G.
+(M), (M) silver.
+(L), (L) burgundy.
+(J), (J) teal.
+(F), (K) ten.
+(A), (A) zero.
+(A), D.
+(B), (B) no.
+(A), (A) zero.
+(R), (R) pink.
+(A), (A) yes.
+(I), (I) mauve.
+(C), (C) two.
+(A), (A) yes.
+(M), (M) silver.
+(G), D.
+(A), (A) yes.
+(B), (B) no.
+(B), (B) no.
+(E), F.
+(I), (I) mauve.
+(Q), (Q) purple.
+(A), (A) red.
+(A), (A) yes.
+(F), (F) five.
+(A), (A) red.
+(O), (O) black.
+(A), (A) yes.
+(O), (O) black.
+(A), B.

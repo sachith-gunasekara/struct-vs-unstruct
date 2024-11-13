@@ -14,9 +14,9 @@ MODEL_ID = "llama3-405b" if llama else "mistral-large-2407"
 logger.info("Using %s for inference", MODEL_ID)
 
 rate_limiter = InMemoryRateLimiter(
-    requests_per_second=1,  # ~ 10 requests per minute
-    check_every_n_seconds=0.1,  # Wake up every 100 ms to check whether allowed to make a request,
-    max_bucket_size=1,  # Controls the maximum burst size.
+    requests_per_second=1,
+    check_every_n_seconds=1.5,
+    max_bucket_size=1,
 )
 
 model_kwargs = {

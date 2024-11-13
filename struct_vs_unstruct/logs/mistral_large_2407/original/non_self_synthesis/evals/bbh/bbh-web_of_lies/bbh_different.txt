@@ -1,0 +1,223 @@
+No, False."
+No, False.
+No, False.
+Yes, None
+Yes, None
+Yes, Amberly tells the truth.
+No, None
+Yes, True.
+No, False."
+Yes, None
+No, False.
+Yes, Jamey tells the truth.
+Yes, Sherrie tells the truth.
+Yes, True."
+No, False.
+No, False.
+Yes, True."
+Yes, None
+Yes, Shaunda tells the truth.
+Yes, None
+Yes, None
+Yes, True."
+Yes, True.
+No, None
+No, True.
+Yes, None
+Yes, None
+No, False.
+Yes, True.
+No, False.
+No, False."
+Yes, True.
+No, None
+Yes, None
+No, None
+Yes, None
+No, False.
+No, False.
+Yes, None
+No, True.
+No, False.
+Yes, Millicent tells the truth.
+No, False.
+No, False.
+No, False.
+No, False.
+No, Ka tells the truth.
+No, True.
+No, None
+Yes, True.
+No, None
+No, False.
+Yes, Shaunda tells the truth.
+Yes, None
+No, False.
+Yes, None
+No, None
+No, Sal does not tell the truth.
+Yes, None
+No, Inga is a liar.
+Yes, True."
+No, False.
+No, False.
+Yes, None
+No, False.
+Yes, True.
+Yes, None
+No, Delfina tells the truth.
+Yes, False.
+Yes, True.
+No, False.
+Yes, True.
+No, None
+No, False.
+Yes, Osvaldo tells the truth.
+No, Sima tells the truth.
+No, False.
+Yes, False.
+Yes, Dallas tells the truth.
+No, None
+Yes, Crista tells the truth.
+Yes, True"
+No, False.
+No, False.
+Yes, None
+Yes, None
+Yes, False.
+No, No, Ryan does not tell the truth.
+Yes, Andree tells the truth.
+Yes, Alejandro tells the truth.
+Yes, Jim tells the truth.
+Yes, Inga tells the truth.
+Yes, None
+No, None
+Yes, Dallas tells the truth.
+No, False."
+No, False.
+Yes, Phoebe tells the truth.
+Yes, Elanor tells the truth.
+No, False.
+Yes, Elanor tells the truth.
+Yes, None
+Yes, Maybelle tells the truth.
+Yes, True.
+Yes, True."
+No, False.
+No, Tamika does not tell the truth.
+No, False.
+Yes, Amberly tells the truth.
+Yes, True."
+Yes, Jamey tells the truth.
+Yes, None
+No, None
+Yes, None
+No, False.
+Yes, True.
+Yes, Millicent tells the truth.
+No, None
+No, None
+No, False.
+Yes, Bernita is telling the truth.
+Yes, None
+Yes, True.
+Yes, None
+Yes, Vina tells the truth.
+Yes, None
+No, True.
+Yes, None
+Yes, True.
+Yes, True.
+No, False.
+Yes, Yes, Phoebe is telling the truth.
+No, False.
+No, None
+No, False.
+No, False.
+No, False.
+Yes, None
+No, None
+No, False.
+Yes, Christie tells the truth.
+No, None
+No, Christie does not tell the truth.
+No, None
+No, Yes.
+Yes, None
+Yes, None
+No, False.
+Yes, None
+No, False.
+No, None
+Yes, True.
+Yes, None
+Yes, None
+Yes, Conception tells the truth.
+No, None
+No, None
+Yes, True.
+No, False.
+No, None
+Yes, False.
+No, None
+No, False.
+Yes, True.
+No, None
+Yes, True.
+No, False.
+No, False.
+Yes, True.
+No, None
+No, Michael tells the truth.
+Yes, Crista tells the truth.
+No, False.
+Yes, None
+No, False.
+Yes, True.
+No, False.
+No, False.
+No, Delfina tells the truth.
+Yes, None
+Yes, True.
+No, Sima does not tell the truth.
+Yes, Leda tells the truth.
+Yes, None
+Yes, True.
+No, False.
+Yes, False.
+Yes, Delbert tells the truth.
+No, Christie is telling the truth.
+No, True.
+No, False.
+No, False."
+Yes, None
+Yes, None
+Yes, None
+Yes, None
+Yes, Jaymie tells the truth.
+Yes, Willian tells the truth.
+No, False."
+No, False.
+Yes, None
+Yes, True.
+Yes, Leda tells the truth.
+No, False.
+Yes, Alexis tells the truth.
+No, Yes.
+Yes, None
+No, True.
+Yes, None
+No, None
+No, False.
+No, False.
+Yes, Alejandro tells the truth.
+No, False.
+No, Kandi is a liar.
+Yes, None
+Yes, False.
+Yes, True."
+No, False.
+Yes, None
+No, Yes.
+No, Shenna tells the truth.
+Yes, None

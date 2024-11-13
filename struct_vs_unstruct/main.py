@@ -165,9 +165,9 @@ if __name__ == "__main__":
                         wait_time = 10
                         print(f"Rate limit exceeded. Waiting for {wait_time} minutes.")
                         time.sleep(wait_time * 60)
-                    elif "Invalid invocation request id specified" in str(e):
-                        wait_time = 45
-                        print(f"Invalid invocation request id specified. Waiting for {wait_time} minutes restart calls...")
+                    elif "Error response 500 while fetching" in str(e):
+                        wait_time = 15
+                        print(f"Error response 500 while fetching. Waiting for {wait_time} minutes restart calls...")
                         time.sleep(wait_time * 60)
                     elif "'NoneType' object has no attribute 'group'" in str(e):
                         logger.error("Error extracting answer and trajectory from response. Rerunning...")
