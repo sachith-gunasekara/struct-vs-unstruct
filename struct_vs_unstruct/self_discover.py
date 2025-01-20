@@ -20,8 +20,8 @@ import struct_vs_unstruct.prompts as svu_prompts
 
 
 langfuse_handler = CallbackHandler(
-    public_key="pk-lf-61a584b0-a395-4ec4-a63e-c2ac7a18969d",
-    secret_key="sk-lf-0fd5bf1f-6b14-408a-babb-dc90384d4090",
+    public_key="",
+    secret_key="",
     host="https://cloud.langfuse.com"
 )
 
